@@ -618,7 +618,12 @@ size_t AtomTable::getSize() const
 size_t AtomTable::getNumNodes() const
 {
     std::lock_guard<std::recursive_mutex> lck(_mtx);
-    return nodeIndex.size();
+    size_t result = nodeIndex.size();
+
+    if (_environ)
+        result += _environ->getNumNodes();
+
+    return result;
 }
 
 size_t AtomTable::getNumLinks() const
