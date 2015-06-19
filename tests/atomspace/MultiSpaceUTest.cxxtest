@@ -543,6 +543,10 @@ public:
 		ex.getHandlesByType(handle_set, CONCEPT_NODE);
 
 		TS_ASSERT(handle_set.size() == 2);
+		TS_ASSERT(as.getNumAtomsOfType(CONCEPT_NODE) == 1);
+		TS_ASSERT(ex.getNumAtomsOfType(CONCEPT_NODE) == 2);
+		TS_ASSERT(as.getNumNodes() == 1);
+		TS_ASSERT(ex.getNumNodes() == 2);
 
 		ex.clear();
 
@@ -553,6 +557,10 @@ public:
 		ex.getHandlesByType(handle_set, CONCEPT_NODE);
 
 		TS_ASSERT(handle_set.size() == 1);
+		TS_ASSERT(as.getNumAtomsOfType(CONCEPT_NODE) == 1);
+		TS_ASSERT(ex.getNumAtomsOfType(CONCEPT_NODE) == 1);
+		TS_ASSERT(as.getNumNodes() == 1);
+		TS_ASSERT(ex.getNumNodes() == 1);
 	}
 };
 
