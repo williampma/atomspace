@@ -240,7 +240,15 @@ public:
                               AttentionValue::sti_t upperBound = AttentionValue::MAXSTI) const
     {
         std::lock_guard<std::recursive_mutex> lck(_mtx);
-        return importanceIndex.getHandleSet(this, lowerBound, upperBound);
+        UnorderedHandleSet result = importanceIndex.getHandleSet(this, lowerBound, upperBound);
+
+        if (_environ)
+        {
+            UnorderedHandleSet temp = _environ->getHandlesByAV(lowerBound, upperBound);
+            result.insert(temp.begin(), temp.end());
+        }
+
+        return result;
     }
 
     /**
@@ -254,6 +262,8 @@ public:
     {
         if (a->_atomTable != this) return;
         std::lock_guard<std::recursive_mutex> lck(_mtx);
+
+        // XXX should parent's importance index be updated as well?
         importanceIndex.updateImportance(a.operator->(), bin);
     }
 
