@@ -629,7 +629,12 @@ size_t AtomTable::getNumNodes() const
 size_t AtomTable::getNumLinks() const
 {
     std::lock_guard<std::recursive_mutex> lck(_mtx);
-    return linkIndex.size();
+    size_t result = linkIndex.size();
+
+    if (_environ)
+        result += _environ->getNumLinks();
+
+    return result;
 }
 
 size_t AtomTable::getNumAtomsOfType(Type type, bool subclass) const
