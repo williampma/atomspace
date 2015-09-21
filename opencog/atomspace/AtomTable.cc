@@ -46,6 +46,7 @@
 #include <opencog/atoms/core/LambdaLink.h>
 #include <opencog/atoms/core/PutLink.h>
 #include <opencog/atoms/core/VariableList.h>
+#include <opencog/atoms/core/VariableNode.h>
 #include <opencog/atoms/execution/EvaluationLink.h>
 #include <opencog/atoms/execution/ExecutionOutputLink.h>
 #include <opencog/util/exceptions.h>
@@ -290,6 +291,9 @@ AtomPtr AtomTable::factory(Type atom_type, AtomPtr atom)
     } else if (TYPE_NODE == atom_type) {
         if (NULL == TypeNodeCast(atom))
             return createTypeNode(*NodeCast(atom));
+	} else if (VARIABLE_NODE == atom_type) {
+        if (NULL == VariableNodeCast(atom))
+            return createVariableNode(*NodeCast(atom));
 
     // Links of various kinds -----------
     } else if (BIND_LINK == atom_type) {
@@ -350,6 +354,8 @@ static AtomPtr clone_factory(Type atom_type, AtomPtr atom)
         return createNumberNode(*NodeCast(atom));
     if (TYPE_NODE == atom_type)
         return createTypeNode(*NodeCast(atom));
+	if (VARIABLE_NODE == atom_type)
+		return createVariableNode(*NodeCast(atom));
     if (classserver().isA(atom_type, NODE))
         return createNode(*NodeCast(atom));
 
