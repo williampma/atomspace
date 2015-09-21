@@ -11,6 +11,7 @@ ADD_LIBRARY (atomcore SHARED
 	LambdaLink.cc
 	PutLink.cc
 	VariableList.cc
+	VariableNode.cc
 )
 
 # Without this, parallel make will race and crap up the generated files.
@@ -33,5 +34,6 @@ INSTALL (FILES
 	LambdaLink.h
 	PutLink.h
 	VariableList.h
+#	VariableNode.h
 	DESTINATION "include/opencog/atoms/core"
 )
