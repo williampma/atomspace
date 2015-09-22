@@ -26,6 +26,7 @@
 #include <opencog/atomspace/ClassServer.h>
 #include <opencog/atoms/TypeNode.h>
 #include <opencog/atoms/core/FreeLink.h>
+#include <opencog/atoms/core/VariableNode.h>
 
 #include "LambdaLink.h"
 
@@ -89,6 +90,17 @@ LambdaLink::LambdaLink(Link &l)
 	if (LAMBDA_LINK != tscope) return;
 	init();
 }
+
+Handle LambdaLink::register_scope()
+{
+	Handle hthis = Handle(shared_from_this());
+
+	for (auto& h : _varlist.varset)
+		VariableNodeCast(h)->receive_scope(Handle(hthis));
+
+	return hthis;
+}
+
 
 /* ================================================================= */
 ///

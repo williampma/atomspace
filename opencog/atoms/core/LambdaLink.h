@@ -85,6 +85,8 @@ public:
 
 	LambdaLink(Link &l);
 
+	Handle register_scope(void);
+
 	// Return the list of variables we are holding.
 	const Variables& get_variables(void) const { return _varlist; }
 	const Handle& get_body(void) const { return _body; }
@@ -107,7 +109,7 @@ static inline LambdaLinkPtr LambdaLinkCast(AtomPtr a)
 	{ return std::dynamic_pointer_cast<LambdaLink>(a); }
 
 // XXX temporary hack ...
-#define createLambdaLink std::make_shared<LambdaLink>
+#define createLambdaLink(...) LambdaLinkCast(std::make_shared<LambdaLink>(__VA_ARGS__)->register_scope())
 
 /** @}*/
 }

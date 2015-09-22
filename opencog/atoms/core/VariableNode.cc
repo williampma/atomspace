@@ -31,7 +31,7 @@
 using namespace opencog;
 
 
-VariableNode::VariableNode(Type t, const string& s,
+VariableNode::VariableNode(Type t, const std::string& s,
                        TruthValuePtr tv, AttentionValuePtr av)
 	: Node(t, s, tv, av)
 {
@@ -60,6 +60,20 @@ VariableNode::VariableNode(Node &n)
 		throw InvalidParamException(TRACE_INFO, "Expecting a VariableNode");
 
 	init();
+}
+
+void VariableNode::receive_scope(const Handle& scope_link)
+{
+	Type t = scope_link->getType();
+	if (not classserver().isA(t, LAMBDA_LINK))
+		throw InvalidParamException(TRACE_INFO, "Expecting a LambdaLink");
+
+	// XXX If eventually VariableNode should only be inside one scope
+	// this could be changed to throw an exception
+	if (_scope.lock())
+		logger().warn("Reusing scoped VariableNode " + toShortString());
+
+	_scope = LinkCast(scope_link);
 }
 
 /* ===================== END OF FILE ===================== */

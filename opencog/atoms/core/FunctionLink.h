@@ -83,7 +83,7 @@ static inline FunctionLinkPtr FunctionLinkCast(AtomPtr a)
    { return std::dynamic_pointer_cast<FunctionLink>(a); }
 
 // XXX temporary hack ...
-#define createFunctionLink std::make_shared<FunctionLink>
+#define createFunctionLink(...) FunctionLinkCast(std::make_shared<FunctionLink>(__VA_ARGS__)->register_scope())
 
 /** @}*/
 }

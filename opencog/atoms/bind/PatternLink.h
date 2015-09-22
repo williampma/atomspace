@@ -183,7 +183,7 @@ static inline PatternLinkPtr PatternLinkCast(AtomPtr a)
 	{ return std::dynamic_pointer_cast<PatternLink>(a); }
 
 // XXX temporary hack ...
-#define createPatternLink std::make_shared<PatternLink>
+#define createPatternLink(...) PatternLinkCast(std::make_shared<PatternLink>(__VA_ARGS__)->register_scope())
 
 /** @}*/
 }

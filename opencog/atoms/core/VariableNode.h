@@ -42,6 +42,8 @@ protected:
 
 	void init(void);
 
+	WinkPtr _scope;		// weak link to avoid shared_ptr cycle
+
 public:
 
 	VariableNode(const std::string& s,
@@ -49,6 +51,8 @@ public:
 	           AttentionValuePtr av = AttentionValue::DEFAULT_AV());
 
 	VariableNode(Node&);
+
+	void receive_scope(const Handle& scope_link);
 };
 
 typedef std::shared_ptr<VariableNode> VariableNodePtr;
