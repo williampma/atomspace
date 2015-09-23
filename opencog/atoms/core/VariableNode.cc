@@ -72,7 +72,12 @@ void VariableNode::receive_scope(const Handle& scope_link)
 	// this could be changed to throw an exception
 	LinkPtr lptr = _scope.lock();
 	if (lptr)
-		logger().warn("Reusing scoped VariableNode " + toShortString() + "with old scope " + lptr->toShortString());
+		logger().warn("Reusing scoped VariableNode "
+		              + toShortString()
+		              + "with old scope "
+		              + lptr->toShortString()
+		              + "and new scope "
+		              + scope_link->toShortString());
 
 	_scope = LinkCast(scope_link);
 }

@@ -152,11 +152,10 @@ protected:
     //! Sets the AtomTable in which this Atom is inserted.
     virtual void setAtomTable(AtomTable *);
 
-    //! Returns the AtomTable in which this Atom is inserted.
-    virtual AtomTable *getAtomTable() const { return _atomTable; }
-
-
 private:
+    //! Returns the AtomTable in which this Atom is inserted.
+    AtomTable *getAtomTable() const { return _atomTable; }
+
     /** Returns whether this atom is marked for removal.
      *
      * @return Whether this atom is marked for removal.
