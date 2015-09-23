@@ -53,6 +53,7 @@ public:
 	VariableNode(Node&);
 
 	void receive_scope(const Handle& scope_link);
+	void remove_scope();
 };
 
 typedef std::shared_ptr<VariableNode> VariableNodePtr;

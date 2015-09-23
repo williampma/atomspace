@@ -70,10 +70,16 @@ void VariableNode::receive_scope(const Handle& scope_link)
 
 	// XXX If eventually VariableNode should only be inside one scope
 	// this could be changed to throw an exception
-	if (_scope.lock())
-		logger().warn("Reusing scoped VariableNode " + toShortString());
+	LinkPtr lptr = _scope.lock();
+	if (lptr)
+		logger().warn("Reusing scoped VariableNode " + toShortString() + "with old scope " + lptr->toShortString());
 
 	_scope = LinkCast(scope_link);
+}
+
+void VariableNode::remove_scope()
+{
+	_scope.reset();
 }
 
 /* ===================== END OF FILE ===================== */

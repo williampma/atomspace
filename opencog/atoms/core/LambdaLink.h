@@ -69,6 +69,8 @@ protected:
 	void extract_variables(const HandleSeq& oset);
 	void init_scoped_variables(const Handle& hvar);
 
+	virtual void setAtomTable(AtomTable* table);
+
 	// utility debug print
 	static void prt(const Handle& h)
 	{
@@ -84,8 +86,6 @@ public:
 	           AttentionValuePtr av = AttentionValue::DEFAULT_AV());
 
 	LambdaLink(Link &l);
-
-	Handle register_scope(void);
 
 	// Return the list of variables we are holding.
 	const Variables& get_variables(void) const { return _varlist; }
@@ -109,7 +109,7 @@ static inline LambdaLinkPtr LambdaLinkCast(AtomPtr a)
 	{ return std::dynamic_pointer_cast<LambdaLink>(a); }
 
 // XXX temporary hack ...
-#define createLambdaLink(...) LambdaLinkCast(std::make_shared<LambdaLink>(__VA_ARGS__)->register_scope())
+#define createLambdaLink std::make_shared<LambdaLink>
 
 /** @}*/
 }

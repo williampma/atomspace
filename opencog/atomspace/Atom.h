@@ -83,13 +83,6 @@ class Atom
     friend class DeleteLink;      // Needs to call getAtomTable();
     friend class ProtocolBufferSerializer; // Needs to de/ser-ialize an Atom
 
-private:
-    //! Sets the AtomTable in which this Atom is inserted.
-    void setAtomTable(AtomTable *);
-
-    //! Returns the AtomTable in which this Atom is inserted.
-    AtomTable *getAtomTable() const { return _atomTable; }
-
 protected:
     UUID _uuid;
     AtomTable *_atomTable;
@@ -155,6 +148,13 @@ protected:
     // Insert and remove links from the incoming set.
     void insert_atom(LinkPtr);
     void remove_atom(LinkPtr);
+
+    //! Sets the AtomTable in which this Atom is inserted.
+    virtual void setAtomTable(AtomTable *);
+
+    //! Returns the AtomTable in which this Atom is inserted.
+    virtual AtomTable *getAtomTable() const { return _atomTable; }
+
 
 private:
     /** Returns whether this atom is marked for removal.

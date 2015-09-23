@@ -91,17 +91,6 @@ LambdaLink::LambdaLink(Link &l)
 	init();
 }
 
-Handle LambdaLink::register_scope()
-{
-	Handle hthis = Handle(shared_from_this());
-
-	for (auto& h : _varlist.varset)
-		VariableNodeCast(h)->receive_scope(Handle(hthis));
-
-	return hthis;
-}
-
-
 /* ================================================================= */
 ///
 /// Find and unpack variable declarations, if any; otherwise, just
@@ -156,6 +145,22 @@ void LambdaLink::init_scoped_variables(const Handle& hvar)
 		VariableList vl({hvar});
 		_varlist = vl.get_variables();
 	}
+}
+
+void LambdaLink::setAtomTable(AtomTable* table)
+{
+	Atom::setAtomTable(table);
+
+	if (table == NULL)
+	{
+		for (auto& h : _varlist.varset)
+			VariableNodeCast(h)->remove_scope();
+		return;
+	}
+
+	Handle hthis = Handle(shared_from_this());
+	for (auto& h : _varlist.varset)
+		VariableNodeCast(h)->receive_scope(hthis);
 }
 
 /* ===================== END OF FILE ===================== */
