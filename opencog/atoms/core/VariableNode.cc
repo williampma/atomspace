@@ -62,6 +62,11 @@ VariableNode::VariableNode(Node &n)
 	init();
 }
 
+/**
+ * Set the scope of a VariableNode.
+ *
+ * @param A scoping LambdaLink
+ */
 void VariableNode::receive_scope(const Handle& scope_link)
 {
 	Type t = scope_link->getType();
@@ -72,19 +77,43 @@ void VariableNode::receive_scope(const Handle& scope_link)
 	// this could be changed to throw an exception
 	LinkPtr lptr = _scope.lock();
 	if (lptr)
+#ifdef VARIABLE_NODE_FULL_SUPPORT
+		throw RuntimeException(TRACE_INFO, "Reusing scoped VariableNode");
+#else
 		logger().warn("Reusing scoped VariableNode "
 		              + toShortString()
-		              + "with old scope "
+		              + "from old scope "
 		              + lptr->toShortString()
-		              + "and new scope "
+		              + "to new scope "
 		              + scope_link->toShortString());
+#endif
 
 	_scope = LinkCast(scope_link);
 }
 
+/**
+ * Remove the scope of the VariableNode.
+ */
 void VariableNode::remove_scope()
 {
+	// XXX It is possible the caller is not the current
+	// link set in _scope now, but not if VariableNode scope
+	// uniqueness is fully supported.
 	_scope.reset();
+}
+
+/**
+ * Return the scoping link of the VariableNode.
+ *
+ * @return UNDEFINED if no scope, the link if scoped
+ */
+Handle VariableNode::get_scope()
+{
+	LinkPtr lptr = _scope.lock();
+	if (not lptr)
+		return Handle::UNDEFINED;
+
+	return Handle(lptr);
 }
 
 /* ===================== END OF FILE ===================== */
